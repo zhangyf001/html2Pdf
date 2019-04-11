@@ -1,14 +1,14 @@
 import com.itextpdf.text.Element;
 import com.itextpdf.text.pdf.*;
+import freemarker.template.Configuration;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
 import org.w3c.dom.Document;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Date;
@@ -169,29 +169,35 @@ public class PdfDocumentGenerator {
             System.out.println("finish " + new Date());
         }
     }
+
     /**
-	 * 替换模板数据
+     * 替换模板数据,返回html
+     * @param template 模板（要遵循freemaker语法）
+     * @param map 数据
+     * @return
+     * @throws IOException
+     * @throws TemplateException
      */
-    public String generate(String template, Map<String,Object> map) throws IOException, TemplateException{
-    	template = "config/templates/myTemplate.html";
-        BufferedWriter writer = null;   
+
+    public String replaceTemp(String template, Map<String,Object> map) throws IOException, TemplateException {
+        template = "config/templates/myTemplate.html";
+        BufferedWriter writer = null;
         String htmlContent = "";
         try{
-        	Configuration config = FreemarkerConfiguration.getConfiguation();     
-        	Template tp = config.getTemplate(template);     
-        	StringWriter stringWriter = new StringWriter();       
-        	writer = new BufferedWriter(stringWriter);  
-        	
-        	tp.setEncoding("UTF-8");
-        	tp.process(map, writer);
-        	htmlContent = stringWriter.toString();     
-        	writer.flush();       
-        	
+            Configuration config = FreeConfig.getConfiguation();
+            Template tp = config.getTemplate(template);
+            StringWriter stringWriter = new StringWriter();
+            writer = new BufferedWriter(stringWriter);
+
+            tp.setEncoding("UTF-8");
+            tp.process(map, writer);
+            htmlContent = stringWriter.toString();
+            writer.flush();
+
         }finally{
-        	if(writer!=null)
-        		writer.close();     
+            if(writer!=null)
+                writer.close();
         }
-        return htmlContent;     
-    }     
-    
+        return htmlContent;
+    }
 }
