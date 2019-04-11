@@ -17,44 +17,16 @@
 
 import java.net.URL;
 
-/**
- * 资源加载类
- * @ClassName: Loader
- * @Description: 资源加载类
- * @author lihengjun
- * 修改时间： 2013年11月11日 下午5:17:33
- * 修改内容：新建
- */
 
 public class ResourceLoader  {
 	public static String CLASS_PATH_PREFIX ="classpath:";
-
-	/**
-	 * classpath中获取资源
-	 * @Title: getResource
-	 * @Description: classpath中获取资源
-	 * @param resource
-	 * @return
-	 * @author lihengjun
-	 * 修改时间： 2013年11月11日 下午5:18:00
-	 * 修改内容：新建
-	 */
+	
 	public static URL getResource(String resource) {
 		ClassLoader classLoader = null;
 		classLoader = Thread.currentThread().getContextClassLoader();
 		return classLoader.getResource(resource);
 	}
 
-	/**
-	 *  classpath 中搜索路径
-	 * @Title: getPath
-	 * @Description:
-	 * @param resource
-	 * @return
-	 * @author lihengjun
-	 * 修改时间： 2013年11月11日 下午5:00:15
-	 * 修改内容：新建
-	 */
 	public static String getPath(String resource){
 		if(resource!=null){
 			if(resource.startsWith(CLASS_PATH_PREFIX)){
@@ -67,17 +39,7 @@ public class ResourceLoader  {
 			return null;
 		return url.getPath().replaceAll("%20", " ");
 	}
-	/**
-	 *
-	 * @Title: getPath
-	 * @Description:
-	 * @param resource
-	 * @param clazz
-	 * @return
-	 * @author lihengjun
-	 * 修改时间： 2013年11月11日 下午5:12:33
-	 * 修改内容：新建
-	 */
+
 	public static String getPath(String resource,Class clazz){
 		URL url = getResource(resource, clazz);
 		if(url==null)
@@ -85,17 +47,7 @@ public class ResourceLoader  {
 		return url.getPath().replaceAll("%20", " ");
 	}
 
-	/**
-	 * 指定class中获取资源
-	 * @Title: getResource
-	 * @Description: 指定class中获取资源
-	 * @param resource
-	 * @param clazz
-	 * @return
-	 * @author lihengjun
-	 * 修改时间： 2013年11月11日 下午5:10:40
-	 * 修改内容：新建
-	 */
+
 	public static URL getResource(String resource,Class clazz){
 		return clazz.getResource(resource);
 	}
