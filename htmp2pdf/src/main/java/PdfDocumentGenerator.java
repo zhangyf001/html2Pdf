@@ -169,4 +169,29 @@ public class PdfDocumentGenerator {
             System.out.println("finish " + new Date());
         }
     }
+    /**
+	 * 替换模板数据
+     */
+    public String generate(String template, Map<String,Object> map) throws IOException, TemplateException{
+    	template = "config/templates/myTemplate.html";
+        BufferedWriter writer = null;   
+        String htmlContent = "";
+        try{
+        	Configuration config = FreemarkerConfiguration.getConfiguation();     
+        	Template tp = config.getTemplate(template);     
+        	StringWriter stringWriter = new StringWriter();       
+        	writer = new BufferedWriter(stringWriter);  
+        	
+        	tp.setEncoding("UTF-8");
+        	tp.process(map, writer);
+        	htmlContent = stringWriter.toString();     
+        	writer.flush();       
+        	
+        }finally{
+        	if(writer!=null)
+        		writer.close();     
+        }
+        return htmlContent;     
+    }     
+    
 }
